@@ -1,23 +1,50 @@
 import { useState } from 'react';
 import { FormCard } from './FormCard'
 import FormInput from './FormInput'
+import { Contract } from 'ethers';
+import { useAccount, useSigner } from 'wagmi';
+import { UNI_BOOST_ABI } from '../config/abi';
+import { Dec, formatDate, sendTxAndWait } from '../utils/utils';
+import { parseEther } from 'ethers/lib/utils.js';
+
+const UNI_BOOST_ADDRESS = import.meta.env.VITE_APP_UNI_BOOST_ADDRESS
 
 const EnableBoostForm = () => {
   const [input, setInput] = useState<Input>({
     pool: '',
     boostAmount: '',
     insuranceAmount: '',
-    liquidationPrice: '',
-    rate: '',
-    endTime: '',
+    liquidationPriceInTick: '',
+    boostRate: '',
+    boostEndTime: '',
   });
 
   const updateInput = (field: Partial<Input>) => {
     setInput({ ...input, ...field })
   }
 
+  const { address } = useAccount()
+  const { data: signer } = useSigner()
+  const UNI_BOOST = new Contract(UNI_BOOST_ADDRESS, UNI_BOOST_ABI.abi, signer!)
+
+  const enableBoost = async () => {
+    try {
+      await sendTxAndWait(UNI_BOOST, 'enableBoost', [
+        input.pool,
+        parseEther(input.boostAmount),
+        parseEther(input.insuranceAmount),
+        input.liquidationPriceInTick,
+        input.boostRate,
+        input.boostEndTime
+      ])
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+
   return (
-    <FormCard title='Enable Boost'>
+    <FormCard title='Enable Boost' onSubmit={() => { enableBoost() }}>
       <FormInput
         title='Pool Address: '
         type='text'
@@ -36,18 +63,23 @@ const EnableBoostForm = () => {
       />
       <FormInput
         title='Insurance Trigger Price In Tick: '
-        value={input.liquidationPrice}
-        onTextChange={(t) => updateInput({ liquidationPrice: t })}
+        value={input.liquidationPriceInTick}
+        helper={input.liquidationPriceInTick
+          ? 'Liquidation Price: ' + String(Dec('1').div(Dec('1.0001').pow(Dec(input.liquidationPriceInTick))))
+          : '-'}
+        onTextChange={(t) => updateInput({ liquidationPriceInTick: t })}
       />
       <FormInput
         title='Boost Rate: '
-        value={input.rate}
-        onTextChange={(t) => updateInput({ rate: t })}
+        value={input.boostRate}
+        helper='500000 for 1.5x'
+        onTextChange={(t) => updateInput({ boostRate: t })}
       />
       <FormInput
         title='Boost End Time: '
-        value={input.endTime}
-        onTextChange={(t) => updateInput({ endTime: t })}
+        value={input.boostEndTime}
+        helper={input.boostEndTime ? formatDate(input.boostEndTime) : 'xxxx-xx-xx'}
+        onTextChange={(t) => updateInput({ boostEndTime: t })}
       />
     </FormCard>
   )
@@ -59,7 +91,7 @@ interface Input {
   pool: string
   boostAmount: string
   insuranceAmount: string
-  liquidationPrice: string
-  rate: string
-  endTime: string
+  liquidationPriceInTick: string
+  boostRate: string
+  boostEndTime: string
 }

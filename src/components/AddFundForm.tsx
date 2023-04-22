@@ -3,7 +3,7 @@ import FormInput from './FormInput'
 import { useState } from 'react'
 import useAddReward from '../hooks/useAddReward'
 import useTeaToast from '../hooks/useTeaToast'
-import { Heading } from '@chakra-ui/react'
+import { parseEther } from 'ethers/lib/utils.js'
 
 const AddFundForm = () => {
   const [input, setInput] = useState<Input>({
@@ -26,13 +26,18 @@ const AddFundForm = () => {
     if (!canToast) return
     errorToast('Transaction Failed!')
   }
-  const args = [input.pool, input.rewardAmount, input.insuranceAmount]
+  const args = [
+    input.pool,
+    parseEther(input.rewardAmount || '0'),
+    parseEther(input.insuranceAmount || '0')
+  ]
+
   const { data, addReward } = useAddReward({ args, onSuccess, onFail })
 
   const onSubmit = async () => {
     if (!addReward) return
     try {
-      addReward()
+      await addReward()
     } catch (e) {
       console.log(e)
     }

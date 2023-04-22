@@ -6,10 +6,11 @@ interface Prop {
   onSuccess: () => void
   onFail: () => void
 }
+const UNI_BOOST_ADDRESS = import.meta.env.VITE_APP_UNI_BOOST_ADDRESS
 
 const useAddReward = ({ args, onSuccess, onFail }: Prop) => {
   const contract = {
-    address: '0xaaaaa',
+    address: UNI_BOOST_ADDRESS,
     abi: UNI_BOOST_ABI.abi,
   } as const
 

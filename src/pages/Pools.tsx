@@ -1,11 +1,8 @@
-import { Box, Button, Card, Collapse, Flex, Grid, Heading, Input, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Card, Collapse, Flex, Grid, Input, SimpleGrid, Text } from "@chakra-ui/react";
 import useIsPrivatePage from "../hooks/useIsPrivatePage";
-import { formatDate } from "../utils/utils";
+import { formatDate, roundString } from "../utils/utils";
 import { FC, useState } from "react";
 import usePool, { PoolSetting } from "../hooks/usePool";
-import { Form } from "react-router-dom";
-import FormInput from "../components/FormInput";
-import Loading from "react-loading";
 
 export default function Pools() {
   useIsPrivatePage(true)
@@ -46,27 +43,33 @@ const PoolCard: FC<PoolCardProp> = ({ poolSetting }) => {
   }
 
   if (!pool) return null
-  const { id, address, name, fee, boostRate, rewardRemaining, rewardToken, insurance, insuranceToken, boostEnds, } = pool
+  const { id, address, name, fee, boostRate, rewardRemaining, rewardToken, insurance, insuranceToken, boostEnds, liquidatePrice } = pool
   return (
     <Card key={id} p={4} w={'100%'} minW={'760px'} maxW={'1280px'} m={'auto'}>
-      <Grid templateColumns={'100px 80px 80px 1fr 1fr 1fr 120px'} alignItems={'center'}>
-        <Text>{name}</Text>
-        <Text>{fee}%</Text>
+      <Grid templateColumns={'88px 88px 1fr 1fr 1fr 1fr 100px'} alignItems={'center'}>
+        <Box>
+          <Text>{name}</Text>
+          <Text>{fee}%</Text>
+        </Box>
         <Box>
           <Text fontSize={'sm'} color={'gray'}>{rewardToken} APR</Text>
-          <Text>{boostRate}</Text>
+          <Text>{boostRate}x</Text>
         </Box>
         <Box>
           <Text fontSize={'sm'} color={'gray'}>Reward Remaining</Text>
-          <Text>{rewardRemaining} {rewardToken}</Text>
+          <Text fontSize={'15px'}>{rewardRemaining} {rewardToken}</Text>
         </Box>
         <Box>
           <Text fontSize={'sm'} color={'gray'}>Insurance</Text>
-          <Text>{insurance} {insuranceToken}</Text>
+          <Text fontSize={'15px'}>{insurance} {insuranceToken}</Text>
         </Box>
         <Box>
           <Text fontSize={'sm'} color={'gray'}>Ends At</Text>
-          <Text>{formatDate(boostEnds)}</Text>
+          <Text fontSize={'15px'}>{formatDate(boostEnds)}</Text>
+        </Box>
+        <Box>
+          <Text fontSize={'sm'} color={'gray'}>Liquidate Price</Text>
+          <Text fontSize={'15px'}>{roundString(liquidatePrice, 6)}</Text>
         </Box>
         <Button onClick={toggleForm}>Expand</Button>
       </Grid>

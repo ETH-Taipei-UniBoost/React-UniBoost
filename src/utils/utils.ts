@@ -1,7 +1,10 @@
 import dateFormat from 'dateformat'
 import { BigNumber, ethers } from 'ethers'
 import BigNumberJS from "bignumber.js"
+import Decimal from 'decimal.js';
+Decimal.set({ toExpNeg: -50, toExpPos: 50 })
 
+export const Dec = (str: string) => new Decimal(str)
 export const BN = (str: string) => BigNumber.from(str)
 const BNJS = (n: string | number) => new BigNumberJS(n)
 /**
