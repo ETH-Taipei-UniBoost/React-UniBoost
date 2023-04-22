@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import { WagmiClient } from './utils/wagmi'
+import { WagmiConfig } from 'wagmi'
 
 const colors = {
 
@@ -21,8 +23,10 @@ const theme = extendTheme({
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <App />
-    </ChakraProvider>
+    <WagmiConfig client={WagmiClient}>
+      <ChakraProvider theme={theme}>
+        <App />
+      </ChakraProvider>
+    </WagmiConfig>
   </React.StrictMode>,
 )

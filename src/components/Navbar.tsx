@@ -1,21 +1,19 @@
-import { UnlockIcon } from "@chakra-ui/icons"
-import { Box, Button, Flex, HStack, Heading, Spacer, useToast } from "@chakra-ui/react"
+import { Box, Button, Flex, HStack, Heading, Spacer, Tooltip, useToast } from "@chakra-ui/react"
 import GnosisIcon from "../assets/GnosisIcon"
+import { useAccount, useConnect, useDisconnect } from "wagmi"
+import { copyToClipboard, getCroppedStringIfAddress } from "../utils/utils"
+import { useState } from "react"
 
 const Navbar = () => {
-  const toast = useToast()
+  const { connect, connectors } = useConnect()
+  const { isConnected, address } = useAccount()
+  const { disconnect } = useDisconnect()
 
-  const showToast = () => {
-    toast({
-      title: 'Logged out',
-      description: 'Successfully logged out',
-      duration: 5000,
-      isClosable: true,
-      status: 'success',
-      position: 'top',
-      icon: <UnlockIcon />
-    })
+  const connectWallet = () => {
+    connect({ connector: connectors[0], chainId: 10200 })
   }
+
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Flex as='nav' p='12px 20px' align="center" bg={'tea.200'}>
@@ -29,9 +27,21 @@ const Navbar = () => {
       <Spacer />
 
       <HStack spacing={'12px'}>
-        <Button colorScheme="teal" onClick={showToast}>Connect</Button>
+        {isConnected && address
+          ? <>
+            <Button colorScheme="teal" onClick={() => { copyToClipboard(address) }} >
+              {getCroppedStringIfAddress(address)}
+            </Button>
+
+            <Button colorScheme="teal" onClick={() => { disconnect() }} >
+              Disconnect
+            </Button>
+          </>
+          : <Button colorScheme="teal" onClick={connectWallet} >
+            Connect
+          </Button>}
       </HStack>
-    </Flex>
+    </Flex >
   )
 }
 
