@@ -1,14 +1,20 @@
 import { useState } from 'react'
-import { useContractReads } from 'wagmi';
-import { UNI_BOOST_ABI } from '../config/abi';
-import { BigNumber } from 'ethers';
+import { useAccount, useContractReads, useProvider, useSigner } from 'wagmi';
+import { ERC_721_ABI, UNI_BOOST_ABI } from '../config/abi';
+import { BigNumber, Contract, ethers } from 'ethers';
 import { formatEther } from 'ethers/lib/utils.js';
+import { sendTxAndWait } from '../utils/utils';
+
+
 
 const UNI_BOOST_ADDRESS = import.meta.env.VITE_APP_UNI_BOOST_ADDRESS
 
 const usePool = (poolSetting: PoolSetting) => {
+  const { address } = useAccount()
+
 
   const [pool, setPool] = useState<Pool>()
+  const [NFTManager, setNFTManager] = useState({ isApproved: false });
 
   const onSuccess = (data: Data) => {
     if (data.some(i => !i)) return setPool(undefined)
@@ -27,27 +33,62 @@ const usePool = (poolSetting: PoolSetting) => {
     })
   }
 
-  const contract = {
+  const PoolContract = {
     address: UNI_BOOST_ADDRESS as `0x${string}`,
     abi: UNI_BOOST_ABI.abi,
   } as const
 
   const { isFetching } = useContractReads({
     contracts: [{
-      ...contract,
+      ...PoolContract,
       functionName: 'getPoolInfo',
       args: [poolSetting.address]
     }, {
-      ...contract,
+      ...PoolContract,
       functionName: 'getBoostRoundData',
       args: [poolSetting.address]
     }],
     onSuccess
   })
 
+  //* ////////////////////////////
+
+  const ContractNFT = {
+    address: '0xFc3d86E2F5cd3d82f488735E4D163AcE5Cfaa3e3' as `0x${string}`,
+    abi: ERC_721_ABI,
+  } as const
+
+  const { } = useContractReads({
+    contracts: [{
+      ...ContractNFT,
+      functionName: 'isApprovedForAll',
+      args: [address, UNI_BOOST_ADDRESS]
+    }],
+    onSuccess: (data: [boolean]) => {
+      setNFTManager({ isApproved: data[0] })
+    }
+  })
+  //* ////////////////////////////
+
+
+  const { data: signer } = useSigner()
+  const UNI_BOOST = new Contract(UNI_BOOST_ADDRESS, UNI_BOOST_ABI.abi, signer!)
+  const NFT_MANAGER = new Contract('0xFc3d86E2F5cd3d82f488735E4D163AcE5Cfaa3e3', ERC_721_ABI, signer!)
+
+  const stakeLP = async (id: string) => {
+    await sendTxAndWait(UNI_BOOST, 'stakeLP', [id])
+  }
+
+  const approve = async () => {
+    await sendTxAndWait(NFT_MANAGER, 'setApprovalForAll', [address, true])
+  }
+
   return {
     pool,
-    isLoading: isFetching
+    isLoading: isFetching,
+    isApproved: NFTManager.isApproved,
+    stakeLP,
+    approve
   }
 }
 

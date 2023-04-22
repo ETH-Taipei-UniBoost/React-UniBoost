@@ -31,13 +31,19 @@ interface PoolCardProp {
 }
 
 const PoolCard: FC<PoolCardProp> = ({ poolSetting }) => {
-  const { pool, isLoading } = usePool(poolSetting)
+  const { pool, stakeLP, isApproved, approve } = usePool(poolSetting)
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const toggleForm = () => setOpen(prev => !prev)
 
-
+  const onStake = async () => {
+    try {
+      await stakeLP(value)
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   if (!pool) return null
   const { id, address, name, fee, boostRate, rewardRemaining, rewardToken, insurance, insuranceToken, boostEnds, } = pool
@@ -68,7 +74,11 @@ const PoolCard: FC<PoolCardProp> = ({ poolSetting }) => {
       <Collapse in={open}>
         <SimpleGrid columns={2} w={'100%'} gap={'16px'} p={'16px'} mt={5} bg={'gray.50'} alignItems={'stretch'}>
           <Input placeholder="token id" type="number" value={value} onChange={(e) => setValue(e.target.value)} />
-          <Button bg={'gray.200'}>Stake</Button>
+          {
+            isApproved
+              ? <Button bg={'gray.200'} onClick={onStake}>Stake</Button>
+              : <Button bg={'gray.200'} onClick={approve}>Approve</Button>
+          }
         </SimpleGrid>
       </Collapse>
     </Card>

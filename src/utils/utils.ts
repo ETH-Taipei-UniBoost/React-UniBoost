@@ -1,5 +1,5 @@
 import dateFormat from 'dateformat'
-import { BigNumber } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import BigNumberJS from "bignumber.js"
 
 export const BN = (str: string) => BigNumber.from(str)
@@ -44,4 +44,14 @@ export const roundString = (str: string, to: number) => {
     console.log(e)
     return '- -'
   }
+}
+
+export const sendTxAndWait = async (contract: ethers.Contract, functionName: string, args: any[]) => {
+  await contract.callStatic[functionName].apply(null, args)
+
+  const Tx: ethers.ContractTransaction = await contract[functionName].apply(null, args)
+  console.log('Tx: ', Tx)
+
+  const Receipt: ethers.ContractReceipt = await Tx.wait()
+  console.log('Receipt: ', Receipt)
 }
