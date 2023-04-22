@@ -67,7 +67,10 @@ const EnableBoostForm = () => {
         helper={input.liquidationPriceInTick
           ? 'Liquidation Price: ' + String(Dec('1').div(Dec('1.0001').pow(Dec(input.liquidationPriceInTick))))
           : '-'}
-        onTextChange={(t) => updateInput({ liquidationPriceInTick: t })}
+        onTextChange={(t) => {
+          if (t.length > 10) return
+          updateInput({ liquidationPriceInTick: t })
+        }}
       />
       <FormInput
         title='Boost Rate: '
@@ -79,7 +82,10 @@ const EnableBoostForm = () => {
         title='Boost End Time: '
         value={input.boostEndTime}
         helper={input.boostEndTime ? formatDate(input.boostEndTime) : 'xxxx-xx-xx'}
-        onTextChange={(t) => updateInput({ boostEndTime: t })}
+        onTextChange={(t) => {
+          if (t.length > 10) return
+          updateInput({ boostEndTime: t })
+        }}
       />
     </FormCard>
   )
