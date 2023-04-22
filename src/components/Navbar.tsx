@@ -1,4 +1,4 @@
-import { Box, Button, Flex, HStack, Heading, Spacer, useToast } from "@chakra-ui/react"
+import { Box, Button, Flex, HStack, Heading, Spacer, Tooltip, useToast } from "@chakra-ui/react"
 import GnosisIcon from "../assets/GnosisIcon"
 import { useAccount, useConnect, useDisconnect } from "wagmi"
 import { copyToClipboard, getCroppedStringIfAddress } from "../utils/utils"
@@ -29,9 +29,11 @@ const Navbar = () => {
       <HStack spacing={'12px'}>
         {isConnected && address
           ? <>
-            <Button colorScheme="teal" onClick={() => { copyToClipboard(address) }} >
-              {getCroppedStringIfAddress(address)}
-            </Button>
+            <Tooltip label="click to copy" hasArrow openDelay={500}>
+              <Button colorScheme="teal" onClick={() => { copyToClipboard(address) }} >
+                {getCroppedStringIfAddress(address)}
+              </Button>
+            </Tooltip>
 
             <Button colorScheme="teal" onClick={() => { disconnect() }} >
               Disconnect
