@@ -1,5 +1,9 @@
 import dateFormat from 'dateformat'
+import { BigNumber } from 'ethers'
+import BigNumberJS from "bignumber.js"
 
+export const BN = (str: string) => BigNumber.from(str)
+const BNJS = (n: string | number) => new BigNumberJS(n)
 /**
  * 錢包地址 ---> 只留頭尾的錢包地址
  * @param {string} str 
@@ -19,3 +23,25 @@ export const copyToClipboard = (valueToCopy: string) => {
 }
 
 export const formatDate = (timestamp: string) => dateFormat(new Date(Number(timestamp) * 1000), 'yyyy-mm-dd')
+
+
+/**
+ * str should be string type and look like a number. e.g. '123.456
+ * '123456.456' , 2  ->  '123456.46'
+ * '123456.456' , -3  ->  '123.46'
+ * '0.0001' , 2  ->  '>0.005'
+ */
+export const roundString = (str: string, to: number) => {
+  if (str === '- -') return str
+  try {
+    const BN = BNJS(str)
+    const resolution = BNJS(5).dividedBy(BNJS(10).pow(to + 1))
+    const minDisplayedValue = BNJS(1).dividedBy(BNJS(10).pow(to))
+    if (!BN.eq(0) && BN.lt(resolution)) return `< ${minDisplayedValue.toString()}`
+    if (to >= 0) return BN.toFixed(to)
+    return BN.dividedBy(10 ** -to).toFixed(2)
+  } catch (e) {
+    console.log(e)
+    return '- -'
+  }
+}
