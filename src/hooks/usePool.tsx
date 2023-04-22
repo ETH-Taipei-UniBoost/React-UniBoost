@@ -38,7 +38,7 @@ const usePool = (poolSetting: PoolSetting) => {
     abi: UNI_BOOST_ABI.abi,
   } as const
 
-  const { isFetching } = useContractReads({
+  const { isFetching, refetch: refetchPool } = useContractReads({
     contracts: [{
       ...PoolContract,
       functionName: 'getPoolInfo',
@@ -58,7 +58,7 @@ const usePool = (poolSetting: PoolSetting) => {
     abi: ERC_721_ABI,
   } as const
 
-  const { } = useContractReads({
+  const { refetch: refetchNFT } = useContractReads({
     contracts: [{
       ...ContractNFT,
       functionName: 'isApprovedForAll',
@@ -80,7 +80,9 @@ const usePool = (poolSetting: PoolSetting) => {
   }
 
   const approve = async () => {
-    await sendTxAndWait(NFT_MANAGER, 'setApprovalForAll', [address, true])
+    await sendTxAndWait(NFT_MANAGER, 'setApprovalForAll', [UNI_BOOST_ADDRESS, true])
+    refetchNFT()
+    refetchPool()
   }
 
   return {
