@@ -3,6 +3,8 @@ import useIsPrivatePage from "../hooks/useIsPrivatePage";
 import { formatDate, roundString } from "../utils/utils";
 import { FC, useState } from "react";
 import usePool, { PoolSetting } from "../hooks/usePool";
+import useTeaToast from "../hooks/useTeaToast";
+import { addStakedTokenId, getLocalStorage } from "../utils/storageHelper";
 
 export default function Pools() {
   useIsPrivatePage(true)
@@ -29,6 +31,7 @@ interface PoolCardProp {
 
 const PoolCard: FC<PoolCardProp> = ({ poolSetting }) => {
   const { pool, stakeLP, isApproved, approve } = usePool(poolSetting)
+  const { successToast, errorToast } = useTeaToast()
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
@@ -37,8 +40,12 @@ const PoolCard: FC<PoolCardProp> = ({ poolSetting }) => {
   const onStake = async () => {
     try {
       await stakeLP(value)
+      successToast('Stake successful.')
+      setValue('')
+      addStakedTokenId(poolSetting.address, value)
     } catch (e) {
       console.log(e)
+      errorToast('Something wrong.')
     }
   }
 
@@ -89,7 +96,7 @@ const PoolCard: FC<PoolCardProp> = ({ poolSetting }) => {
 }
 
 
-const MOCK_POOLS: PoolSetting[] = [
+export const MOCK_POOLS: PoolSetting[] = [
   {
     id: '1',
     address: '0x5b98B0bBCBA43e8C63215BCBE5D98638eAe7cC8c',
