@@ -1,6 +1,6 @@
 import { FC } from "react"
 import { Button, List, ListItem, Text } from "@chakra-ui/react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 
 const Sidebar = () => {
   return (
@@ -21,11 +21,16 @@ interface NavButtonProp {
 }
 
 const NavButton: FC<NavButtonProp> = ({ to, title }) => {
+  const pathname = useLocation().pathname
   return (
-    <ListItem>
+    <ListItem
+      bg={pathname === to ? 'tea.400' : 'tea.300'}
+      color={pathname === to ? 'tea.200' : 'tea.500'}
+      borderRadius={'md'}
+    >
       <NavLink to={to}>
         <Button
-          px="2"
+          px="3"
           w="100%"
           textAlign={'left'}
           variant={'unstyled'}
