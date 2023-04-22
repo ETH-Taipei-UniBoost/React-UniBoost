@@ -61,10 +61,10 @@ const StakedPoolCard: FC<StakedPoolCardProp> = ({ poolSetting, tokenId }) => {
       errorToast('Something wrong.')
     }
   }
-  const { id, address, name, fee, boostRate, rewardRemaining, rewardToken, insurance, insuranceToken, boostEnds, liquidatePrice } = pool
+  const { id, address, name, fee, boostRate, rewardToken, stakedTime, lastClaimTime } = pool
   return (
     <Card key={id} p={4} w={'100%'} minW={'760px'} maxW={'1280px'} m={'auto'}>
-      <Grid templateColumns={'88px 88px 88px 1fr 1fr 1fr 1fr 100px'} alignItems={'center'}>
+      <Grid templateColumns={'100px 100px 100px 1fr 1fr 100px'} alignItems={'center'}>
         <Box>
           <Text>{name}</Text>
           <Text>{fee}%</Text>
@@ -78,20 +78,12 @@ const StakedPoolCard: FC<StakedPoolCardProp> = ({ poolSetting, tokenId }) => {
           <Text fontSize={'15px'}>{tokenId}</Text>
         </Box>
         <Box>
-          <Text fontSize={'sm'} color={'gray'}>Reward Remaining</Text>
-          <Text fontSize={'15px'}>{rewardRemaining} {rewardToken}</Text>
+          <Text fontSize={'sm'} color={'gray'}>Stake Time</Text>
+          <Text fontSize={'15px'}>{formatDate(stakedTime, 'yyyy-mm-dd HH:MM:ss')}</Text>
         </Box>
         <Box>
-          <Text fontSize={'sm'} color={'gray'}>Insurance</Text>
-          <Text fontSize={'15px'}>{insurance} {insuranceToken}</Text>
-        </Box>
-        <Box>
-          <Text fontSize={'sm'} color={'gray'}>Ends At</Text>
-          <Text fontSize={'15px'}>{formatDate(boostEnds)}</Text>
-        </Box>
-        <Box>
-          <Text fontSize={'sm'} color={'gray'}>Liquidate Price</Text>
-          <Text fontSize={'15px'}>{roundString(liquidatePrice, 6)}</Text>
+          <Text fontSize={'sm'} color={'gray'}>lastClaim Time</Text>
+          <Text fontSize={'15px'}>{formatDate(lastClaimTime, 'yyyy-mm-dd HH:MM:ss')}</Text>
         </Box>
         <Button onClick={toggleForm}>Expand</Button>
       </Grid>

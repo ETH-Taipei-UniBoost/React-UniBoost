@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useAccount, useContractReads, useSigner } from 'wagmi';
 import { ERC_721_ABI, UNI_BOOST_ABI } from '../config/abi';
 import { BigNumber, Contract } from 'ethers';
-import { formatEther } from 'ethers/lib/utils.js';
 import { Dec, sendTxAndWait } from '../utils/utils';
 
 
@@ -13,28 +12,21 @@ const useStakedPool = (poolSetting: PoolSetting, tokenId?: string) => {
   const { address } = useAccount()
 
 
-  const [pool, setPool] = useState<Pool>()
+  const [pool, setPool] = useState<StakedPool>()
   const [NFTManager, setNFTManager] = useState({ isApproved: false });
 
   const onSuccess = (data: Data) => {
     if (data.some(i => !i)) return setPool(undefined)
-    console.log(data[1].data.boostEndTime)
+
     setPool({
       id: poolSetting.address,
       address: poolSetting.address,
       name: poolSetting.name,
       fee: String(data[0].fee * 0.0001),
       boostRate: String(data[1].data.boostRate * 0.000001 + 1),
-      rewardRemaining: formatEther(data[1].data.boostRewardBalance),
       rewardToken: poolSetting.rewardToken,
-      insurance: formatEther(data[1].data.insuranceBalance),
-      insuranceToken: poolSetting.insuranceToken,
-      boostEnds: data[1].data.boostEndTime,
-      liquidatePrice: String(
-        Dec('1')
-          .div(Dec('1.0001')
-            .pow(Dec(String(data[1].data.insuranceTriggerPriceInTick))))
-      )
+      stakedTime: data[2].stakedTime.toString(),
+      lastClaimTime: data[2].lastClaimTime.toString()
     })
   }
   const PoolContract = {
@@ -132,17 +124,14 @@ export interface PoolSetting {
   insuranceToken: string
 }
 
-export interface Pool {
+export interface StakedPool {
   id: string
   address: string
   name: string
   fee: string
   boostRate: string
-  rewardRemaining: string
   rewardToken: string
-  insurance: string
-  insuranceToken: string
-  boostEnds: string
-  liquidatePrice: string
+  stakedTime: string
+  lastClaimTime: string
 }
 

@@ -29,7 +29,7 @@ const usePool = (poolSetting: PoolSetting) => {
       rewardToken: poolSetting.rewardToken,
       insurance: formatEther(data[1].data.insuranceBalance),
       insuranceToken: poolSetting.insuranceToken,
-      boostEnds: data[1].data.boostEndTime,
+      boostEnds: data[1].data.boostEndTime.toString(),
       liquidatePrice: String(
         Dec('1')
           .div(Dec('1.0001')
@@ -114,7 +114,7 @@ interface PoolRoundData {
   data: {
     fee: number
     incentivizer: string
-    boostEndTime: string
+    boostEndTime: BigNumber
     boostRate: number
     insuranceTriggerPriceInTick: string
     boostRewardBalance: BigNumber

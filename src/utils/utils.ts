@@ -25,7 +25,7 @@ export const copyToClipboard = (valueToCopy: string) => {
   navigator.clipboard.writeText(valueToCopy)
 }
 
-export const formatDate = (timestamp: string) => dateFormat(new Date(Number(timestamp) * 1000), 'yyyy-mm-dd')
+export const formatDate = (timestamp: string, format: string = 'yyyy-mm-dd') => dateFormat(new Date(Number(timestamp) * 1000), format)
 
 
 /**
