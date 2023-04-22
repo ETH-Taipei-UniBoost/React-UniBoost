@@ -1,8 +1,9 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
-import { Box, Button, ButtonGroup, Flex, Heading, Text } from '@chakra-ui/react'
+import { Box, Button, ButtonGroup, Flex, Heading, Link, Text } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAccount, useConnect } from 'wagmi'
+import GitHubIcon from '../assets/GitHubIcon'
 
 const Home = () => {
   const { connect, connectors } = useConnect()
@@ -22,9 +23,11 @@ const Home = () => {
           A permissionless liquidity boosting protocol specifically for <span style={{ color: '#319795', fontWeight: 600 }}>Uniswap V2 and V3</span> with insurance protection.
         </Text>
         <ButtonGroup spacing={4}>
-          <Button size={'lg'} colorScheme='gray'>
-            GitHub
-          </Button>
+          <Link href='https://github.com/ETH-Taipei-UniBoost' target='_blank'>
+            <Button size={'lg'} colorScheme='gray' leftIcon={<GitHubIcon style={{ fontSize: 28 }} />}>
+              GitHub
+            </Button>
+          </Link>
           <Button size={'lg'} colorScheme='teal' rightIcon={<ChevronRightIcon />} onClick={connectWallet}>
             Connect Wallet
           </Button>
