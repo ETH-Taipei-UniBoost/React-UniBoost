@@ -1,18 +1,9 @@
-import { Box, Button, Checkbox, FormControl, FormHelperText, FormLabel, Input, Textarea } from "@chakra-ui/react";
-import { Form } from "react-router-dom";
+import { Box } from "@chakra-ui/react";
 
 export default function Staked() {
   return (
-    <Box maxW={'480px'}>
-      <Form>
-        <FormControl isRequired mb={"40px"}>
-          <FormLabel mb={1}>Reward Token:</FormLabel>
-          <Input size={'sm'} type="text" name="title" />
-          <FormHelperText mt={1}>Enter the reward token address</FormHelperText>
-        </FormControl>
-
-        <Button colorScheme="purple" type="submit">Submit</Button>
-      </Form>
+    <Box>
+      Staked
     </Box>
   )
 }

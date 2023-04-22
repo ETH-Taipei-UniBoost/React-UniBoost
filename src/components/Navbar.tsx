@@ -29,7 +29,7 @@ const Navbar = () => {
       <Spacer />
 
       <HStack spacing={'12px'}>
-        <Button colorScheme="blackAlpha" onClick={showToast}>Connect</Button>
+        <Button colorScheme="teal" onClick={showToast}>Connect</Button>
       </HStack>
     </Flex>
   )
