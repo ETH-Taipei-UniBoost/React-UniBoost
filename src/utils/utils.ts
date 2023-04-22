@@ -1,3 +1,5 @@
+import dateFormat from 'dateformat'
+
 /**
  * 錢包地址 ---> 只留頭尾的錢包地址
  * @param {string} str 
@@ -15,3 +17,5 @@ export const getCroppedStringIfAddress = (str: string, charRemained: number = 4)
 export const copyToClipboard = (valueToCopy: string) => {
   navigator.clipboard.writeText(valueToCopy)
 }
+
+export const formatDate = (timestamp: string) => dateFormat(new Date(Number(timestamp) * 1000), 'yyyy-mm-dd')
