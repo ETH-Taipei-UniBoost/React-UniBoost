@@ -1,20 +1,37 @@
-import { FormControl, FormLabel, Input, FormHelperText, Button, Box } from "@chakra-ui/react";
-import { Form } from "react-router-dom";
+import { TabList, Tab, Tabs, TabPanels, TabPanel, VStack } from "@chakra-ui/react";
 import useIsPrivatePage from "../hooks/useIsPrivatePage";
+import ClaimForm from "../components/ClaimForm";
+import AddRewardForm from "../components/AddRewardForm";
+import EnableBoostForm from "../components/EnableBoostForm";
+import AddInsuranceForm from "../components/AddInsuranceForm";
 
 export default function Boost() {
   useIsPrivatePage(true)
   return (
-    <Box maxW={'480px'}>
-      <Form>
-        <FormControl isRequired mb={"40px"}>
-          <FormLabel mb={1}>Reward Token:</FormLabel>
-          <Input size={'sm'} type="text" name="title" />
-          <FormHelperText mt={1}>Enter the reward token address</FormHelperText>
-        </FormControl>
+    <Tabs isFitted>
+      <TabList>
+        <Tab>Enable Boost</Tab>
+        <Tab>Add Reward</Tab>
+        <Tab>Close Boost Round</Tab>
+      </TabList>
 
-        <Button colorScheme="purple" type="submit">Submit</Button>
-      </Form>
-    </Box>
+      <TabPanels>
+        <TabPanel>
+          <EnableBoostForm />
+        </TabPanel>
+
+        <TabPanel>
+          <VStack spacing={10}>
+            <AddRewardForm />
+            <AddInsuranceForm />
+          </VStack>
+        </TabPanel>
+
+        <TabPanel>
+          <ClaimForm />
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
   )
 }
+

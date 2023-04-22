@@ -1,4 +1,4 @@
-import { Box, Button, Flex, HStack, Heading, Spacer, Tooltip, useToast } from "@chakra-ui/react"
+import { Box, Button, Flex, HStack, Heading, Spacer, useToast } from "@chakra-ui/react"
 import GnosisIcon from "../assets/GnosisIcon"
 import { useAccount, useConnect, useDisconnect } from "wagmi"
 import { copyToClipboard, getCroppedStringIfAddress } from "../utils/utils"
