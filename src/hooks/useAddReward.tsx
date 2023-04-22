@@ -27,17 +27,19 @@ const useAddReward = ({ args, onSuccess, onFail }: Prop) => {
     ...contract,
     functionName: 'addFund',
     args: args,
-    onSuccess: onSuccess
+    onSuccess: onSuccess,
+    enabled: args.map(i => i).length === 3,
+    onError: () => { }
   })
   const { data: receipt,
     isLoading: isWriting,
     isSuccess: isWriteSuccess,
-    write: addReward
+    writeAsync: addReward
   } = useContractWrite(config)
 
 
   return {
-    data,
+    data: data as [PoolInfo],
     receipt,
     isLoading,
     isWriting,

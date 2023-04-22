@@ -1,9 +1,8 @@
 import { TabList, Tab, Tabs, TabPanels, TabPanel, VStack } from "@chakra-ui/react";
 import useIsPrivatePage from "../hooks/useIsPrivatePage";
-import ClaimForm from "../components/ClaimForm";
-import AddRewardForm from "../components/AddRewardForm";
+import ClostRoundForm from "../components/ClostRoundForm";
+import AddFundForm from "../components/AddFundForm";
 import EnableBoostForm from "../components/EnableBoostForm";
-import AddInsuranceForm from "../components/AddInsuranceForm";
 
 export default function Boost() {
   useIsPrivatePage(true)
@@ -11,7 +10,7 @@ export default function Boost() {
     <Tabs isFitted>
       <TabList>
         <Tab>Enable Boost</Tab>
-        <Tab>Add Reward</Tab>
+        <Tab>Add Fund</Tab>
         <Tab>Close Boost Round</Tab>
       </TabList>
 
@@ -22,13 +21,12 @@ export default function Boost() {
 
         <TabPanel>
           <VStack spacing={10}>
-            <AddRewardForm />
-            <AddInsuranceForm />
+            <AddFundForm />
           </VStack>
         </TabPanel>
 
         <TabPanel>
-          <ClaimForm />
+          <ClostRoundForm />
         </TabPanel>
       </TabPanels>
     </Tabs>

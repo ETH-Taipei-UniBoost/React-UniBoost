@@ -12,37 +12,42 @@ const EnableBoostForm = () => {
     endTime: '',
   });
 
+  const updateInput = (field: Partial<Input>) => {
+    setInput({ ...input, ...field })
+  }
+
   return (
     <FormCard title='Enable Boost'>
       <FormInput
-        title='Pool: '
+        title='Pool Address: '
+        type='text'
         value={input.pool}
-        onTextChange={() => { }}
+        onTextChange={(t) => updateInput({ pool: t })}
       />
       <FormInput
         title='Boost Amount: '
         value={input.boostAmount}
-        onTextChange={() => { }}
+        onTextChange={(t) => updateInput({ boostAmount: t })}
       />
       <FormInput
         title='Insurance Amount: '
         value={input.insuranceAmount}
-        onTextChange={() => { }}
+        onTextChange={(t) => updateInput({ insuranceAmount: t })}
       />
       <FormInput
         title='Insurance Trigger Price In Tick: '
         value={input.liquidationPrice}
-        onTextChange={() => { }}
+        onTextChange={(t) => updateInput({ liquidationPrice: t })}
       />
       <FormInput
         title='Boost Rate: '
         value={input.rate}
-        onTextChange={() => { }}
+        onTextChange={(t) => updateInput({ rate: t })}
       />
       <FormInput
         title='Boost End Time: '
         value={input.endTime}
-        onTextChange={() => { }}
+        onTextChange={(t) => updateInput({ endTime: t })}
       />
     </FormCard>
   )
