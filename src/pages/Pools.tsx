@@ -53,13 +53,13 @@ const PoolCard: FC<PoolCardProp> = ({ poolSetting }) => {
   const { id, address, name, fee, boostRate, rewardRemaining, rewardToken, insurance, insuranceToken, boostEnds, liquidatePrice } = pool
   return (
     <Card key={id} p={4} w={'100%'} minW={'760px'} maxW={'1280px'} m={'auto'}>
-      <Grid templateColumns={'88px 88px 1fr 1fr 1fr 1fr 100px'} alignItems={'center'}>
+      <Grid templateColumns={'88px 100px 1fr 1fr 1fr 1fr 100px'} alignItems={'center'}>
         <Box>
           <Text>{name}</Text>
           <Text>{fee}%</Text>
         </Box>
         <Box>
-          <Text fontSize={'sm'} color={'gray'}>{rewardToken} APR</Text>
+          <Text fontSize={'sm'} color={'gray'}>Boost Factor</Text>
           <Text>{boostRate}x</Text>
         </Box>
         <Box>
@@ -127,6 +127,6 @@ export const MOCK_POOLS: PoolSetting[] = [
     name: 'DAI/RKT',
     fee: '0.3%',
     rewardToken: 'RKT',
-    insuranceToken: 'USDC'
+    insuranceToken: 'DAI'
   },
 ]

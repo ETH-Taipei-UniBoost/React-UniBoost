@@ -64,13 +64,13 @@ const StakedPoolCard: FC<StakedPoolCardProp> = ({ poolSetting, tokenId }) => {
   const { id, address, name, fee, boostRate, rewardToken, stakedTime, lastClaimTime } = pool
   return (
     <Card key={id} p={4} w={'100%'} minW={'760px'} maxW={'1280px'} m={'auto'}>
-      <Grid templateColumns={'100px 100px 100px 1fr 1fr 100px'} alignItems={'center'}>
+      <Grid templateColumns={'100px 120px 100px 1fr 1fr 100px'} alignItems={'center'}>
         <Box>
           <Text>{name}</Text>
           <Text>{fee}%</Text>
         </Box>
         <Box>
-          <Text fontSize={'sm'} color={'gray'}>{rewardToken} APR</Text>
+          <Text fontSize={'sm'} color={'gray'}>Boost Factor</Text>
           <Text>{boostRate}x</Text>
         </Box>
         <Box>

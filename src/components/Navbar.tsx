@@ -19,7 +19,8 @@ const Navbar = () => {
     <Flex as='nav' p='12px 20px' align="center" bg={'tea.200'}>
       <HStack spacing={'8px'}>
         <Box w={'40px'} h={'40px'} color={'tea.400'}>
-          <GnosisIcon />
+          {/* <GnosisIcon /> */}
+          <img src="/UniBoost-logo.png" alt="uniboost" width={36} height={36} />
         </Box>
         <Heading size={'lg'}>UniBoost</Heading>
       </HStack>
