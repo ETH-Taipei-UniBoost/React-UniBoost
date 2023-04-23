@@ -64,11 +64,11 @@ const PoolCard: FC<PoolCardProp> = ({ poolSetting }) => {
         </Box>
         <Box>
           <Text fontSize={'sm'} color={'gray'}>Reward Remaining</Text>
-          <Text fontSize={'15px'}>{rewardRemaining} {rewardToken}</Text>
+          <Text fontSize={'15px'}>{roundString(rewardRemaining, 4)} {rewardToken}</Text>
         </Box>
         <Box>
           <Text fontSize={'sm'} color={'gray'}>Insurance</Text>
-          <Text fontSize={'15px'}>{insurance} {insuranceToken}</Text>
+          <Text fontSize={'15px'}>{roundString(insurance, 4)} {insuranceToken}</Text>
         </Box>
         <Box>
           <Text fontSize={'sm'} color={'gray'}>Ends At</Text>
