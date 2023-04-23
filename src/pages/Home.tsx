@@ -19,7 +19,7 @@ const Home = () => {
     <Flex justify={'center'} align={'center'} flexGrow={1} flexDirection={'column'}>
       <Box textAlign={'center'}>
         <Heading fontSize={64} fontWeight={700} lineHeight={'77px'} mb={4}>UniBoost</Heading>
-        <Text color="#888888" fontSize={24} lineHeight={'28px'} w={500} mb={10} fontWeight={300}>
+        <Text color="#888888" fontSize={24} lineHeight={'28px'} w={420} mb={10} fontWeight={300}>
           A permissionless liquidity boosting protocol specifically for <span style={{ color: '#319795', fontWeight: 600 }}>Uniswap V3</span> with insurance protection.
         </Text>
         <ButtonGroup spacing={4}>
